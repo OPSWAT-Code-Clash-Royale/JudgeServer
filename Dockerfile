@@ -57,6 +57,7 @@ needed="python3.12-minimal \
     gcc-13 \
     g++-13 \
     nodejs \
+    mono-complete \
     strace"
 savedAptMark="$(apt-mark showmanual) $needed"
 apt-get update

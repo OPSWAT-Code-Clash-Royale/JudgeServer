@@ -3,7 +3,7 @@ import json
 
 import requests
 
-from .languages import c_lang_config, cpp_lang_config, java_lang_config, c_lang_spj_config, c_lang_spj_compile, py2_lang_config, py3_lang_config, go_lang_config, php_lang_config, js_lang_config
+from .languages import c_lang_config, cpp_lang_config, java_lang_config, c_lang_spj_config, c_lang_spj_compile, py2_lang_config, py3_lang_config, go_lang_config, php_lang_config, js_lang_config, csharp_lang_config
 
 
 class JudgeServerClientError(Exception):
@@ -130,6 +130,20 @@ rl.on('line', (input) => {
   console.log(a + b);
 });"""
 
+    csharp_src = """
+using System;
+public class HelloWorld
+{
+    public static void Main(string[] args)
+    {
+        var numbers = Console.ReadLine();
+        var numberList = numbers.Split(' ');
+        var number1 = Convert.ToInt32(numberList[0]);
+        var number2 = Convert.ToInt32(numberList[1]);
+        Console.WriteLine(number1 + number2);
+    }
+}"""
+
     client = JudgeServerClient(token=token, server_base_url="http://127.0.0.1:12358")
     print("ping")
     print(client.ping(), "\n\n")
@@ -189,3 +203,8 @@ rl.on('line', (input) => {
     print(client.judge(src=c_src, language_config=c_lang_config,
                        max_cpu_time=1000, max_memory=1024 * 1024 * 128,
                        test_case=[{"input": "1 2\n", "output": "3"}, {"input": "1 4\n", "output": "3"}], output=True), "\n\n")
+
+    print("csharp_judge")
+    print(client.judge(src=csharp_src, language_config=csharp_lang_config,
+                       max_cpu_time=1000, max_memory=256 * 1024 * 1024,
+                       test_case_id="normal"), "\n\n")
